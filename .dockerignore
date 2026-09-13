@@ -1,0 +1,26 @@
+# Python virtual envs and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Git metadata
+.git/
+.gitignore
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
