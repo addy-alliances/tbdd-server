@@ -1,0 +1,39 @@
+{
+  "name": "tbdd-server",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/tbdd-server,type=bind",
+  "workspaceFolder": "/tbdd-server",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "MCP HTTP server",
+      "onAutoForward": "notify"
+    }
+  },
+  "containerEnv": {
+    "PYTHONPATH": "/tbdd-server"
+  },
+  "postCreateCommand": "python -m pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.testing.unittestEnabled": true,
+        "python.testing.pytestEnabled": false,
+        "python.testing.unittestArgs": [
+          "-v",
+          "-s",
+          "tests/unit",
+          "-p",
+          "test_*.py"
+        ]
+      }
+    }
+  }
+}
