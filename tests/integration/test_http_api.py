@@ -1,11 +1,11 @@
 import unittest
 
-from src.service.simulator_service import execute_http_api
+from src.simulators.rest_api_simulator import RestApiSimulator
 
 
 class HttpApiIntegrationTests(unittest.TestCase):
     def test_executes_get_request_against_google(self):
-        result = execute_http_api(
+        result = RestApiSimulator().execute(
             "https://www.google.com",
             method="GET",
             accept="text/html",

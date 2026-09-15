@@ -1,11 +1,14 @@
 from typing import Any
 
 from src.mcp_app import mcp
-from src.service.simulator_service import execute_http_api
+from src.simulators.rest_api_simulator import RestApiSimulator
+
+
+_rest_api_simulator = RestApiSimulator()
 
 
 @mcp.tool(
-    name="tool_execute_http_api",
+    name="simulate_http_api",
     version="1.0.0",
     title="Execute HTTP API Request",
     description=(
@@ -36,7 +39,7 @@ from src.service.simulator_service import execute_http_api
     },
     meta={"category": "http-client", "safe_for_automatic_retry": False},
 )
-def tool_execute_http_api(
+def simulate_http_api(
     url: str,
     method: str = "GET",
     headers: dict[str, str] | None = None,
@@ -54,31 +57,8 @@ def tool_execute_http_api(
     accept: str | None = None,
     custom_kwargs: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Execute an HTTP request with common API integration options.
-
-    Args:
-        url: Fully qualified URL to call.
-        method: HTTP method, such as GET, POST, PUT, PATCH, or DELETE.
-        headers: Request headers keyed by header name.
-        params: Query string parameters.
-        body: Raw request body. Use either this or json_body, not both.
-        json_body: JSON-compatible request payload. Use either this or body, not both.
-        form_data: Form-encoded request fields.
-        files: Multipart upload files accepted by httpx.
-        cookies: Cookies keyed by cookie name.
-        auth: Basic authentication as [username, password].
-        timeout: Request timeout in seconds.
-        follow_redirects: Whether redirects should be followed.
-        verify: Whether TLS certificates should be verified.
-        content_type: Optional Content-Type header value.
-        accept: Optional Accept header value.
-        custom_kwargs: Additional keyword arguments passed to httpx.request.
-
-    Returns:
-        Response metadata, response headers, response body, parsed JSON when
-        available, and an error object when the HTTP request fails.
-    """
-    return execute_http_api(
+    """Execute an HTTP request with common API integration options."""
+    return _rest_api_simulator.execute(
         url=url,
         method=method,
         headers=headers,
@@ -98,4 +78,4 @@ def tool_execute_http_api(
     )
 
 
-__all__ = ["tool_execute_http_api"]
+__all__ = ["simulate_http_api"]

@@ -3,12 +3,13 @@ from unittest.mock import patch
 
 import httpx
 
-from src.service.simulator_service import execute_http_api
+from src.simulators.rest_api_simulator import RestApiSimulator
 
 
-class ExecuteHttpApiTests(unittest.TestCase):
-    @patch("src.service.simulator_service.httpx.request")
-    def test_execute_http_api_behaviors(self, request):
+class RestApiSimulatorTests(unittest.TestCase):
+    @patch("src.simulators.rest_api_simulator.httpx.request")
+    def test_simulate_rest_api(self, request):
+        simulator = RestApiSimulator()
         with self.subTest("returns response metadata"):
             response = httpx.Response(
                 200,
@@ -17,7 +18,7 @@ class ExecuteHttpApiTests(unittest.TestCase):
             )
             request.return_value = response
 
-            result = execute_http_api(
+            result = simulator.execute(
                 "https://example.test/items",
                 method="post",
                 json_body={"name": "item"},
@@ -35,7 +36,7 @@ class ExecuteHttpApiTests(unittest.TestCase):
 
         with self.subTest("rejects duplicate bodies"):
             with self.assertRaisesRegex(ValueError, "either 'body' or 'json_body'"):
-                execute_http_api(
+                simulator.execute(
                     "https://example.test/items",
                     body="raw",
                     json_body={"name": "item"},
@@ -45,7 +46,7 @@ class ExecuteHttpApiTests(unittest.TestCase):
             request.reset_mock(side_effect=True)
             request.side_effect = httpx.ConnectError("connection refused")
 
-            result = execute_http_api("https://example.test/items")
+            result = simulator.execute("https://example.test/items")
 
             self.assertFalse(result["ok"])
             self.assertIsNone(result["status_code"])

@@ -1,4 +1,4 @@
-.PHONY: install run build check-python compile test unit-test integration-test docker-build docker-run
+.PHONY: install run clean build check-python compile test unit-test integration-test docker-build docker-run
 
 PYTHON ?= python
 PYTHON_MIN_VERSION ?= 3.10
@@ -12,6 +12,9 @@ install: check-python
 
 run:
 	$(PYTHON) -m src.server
+
+clean:
+	$(PYTHON) -c "from pathlib import Path; [file.unlink() for file in Path('.').rglob('*.pyc')]; [file.unlink() for file in Path('.').rglob('*.pyo')]; [directory.rmdir() for directory in sorted(Path('.').rglob('__pycache__'), reverse=True) if directory.is_dir()]"
 
 compile:
 	$(PYTHON) -m compileall -q src tests
