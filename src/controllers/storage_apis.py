@@ -29,9 +29,11 @@ def get_storage_repository(
     finally:
         database_generator.close()
 
+def get_storage_service(
     repository: StorageRepository[HttpApi] = Depends(get_storage_repository),
 ) -> StorageService:
     return StorageService(repository)
 
+@storage_router.get("/http-apis", operation_id="list_http_apis")
 def list_http_apis(service: StorageService = Depends(get_storage_service)) -> list[dict[str, Any]]:
     return [jsonable_encoder(http_api) for http_api in service.list_http_apis()]

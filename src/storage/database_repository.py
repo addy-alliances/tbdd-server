@@ -3,8 +3,10 @@ from typing import Generic, TypeVar
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+ModelType = TypeVar("ModelType")
 
 class DatabaseRepository(Generic[ModelType]):
+    """Persist models through a SQLAlchemy session."""
 
     def __init__(self, model_type: type[ModelType], session: Session):
         self.model_type = model_type

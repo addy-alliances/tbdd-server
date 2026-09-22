@@ -11,6 +11,7 @@ from .repository import StorageRepository
 
 ModelType = TypeVar("ModelType")
 
+def create_repository(
     model_type: type[ModelType],
     settings: StorageSettings,
     session: Session | None = None,
