@@ -2,3 +2,7 @@ fastapi
 fastmcp
 httpx
 uvicorn[standard]
+SQLAlchemy
+alembic
+psycopg[binary]
+python-dotenv

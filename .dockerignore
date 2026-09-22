@@ -16,6 +16,11 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
 # Git metadata
 .git/
 .gitignore

@@ -1,4 +1,4 @@
-.PHONY: install run clean build check-python compile test unit-test integration-test docker-build docker-run
+.PHONY: install run clean build check-python compile test unit-test integration-test db-upgrade db-migration docker-build docker-run
 
 PYTHON ?= python
 PYTHON_MIN_VERSION ?= 3.10
@@ -27,10 +27,16 @@ integration-test:
 
 test: unit-test integration-test
 
+db-upgrade:
+	alembic upgrade head
+
+db-migration:
+	$(PYTHON) scripts/create_sql_migration.py "$(message)"
+
 build: check-python compile test
 
 docker-build:
 	docker build -t tbdd-server .
 
 docker-run:
-	docker run --rm -p 8000:8000 tbdd-server
+	docker run --rm --env-file .env -p 8000:8000 tbdd-server
