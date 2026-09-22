@@ -32,3 +32,7 @@ dist/
 
 # Local runtime files
 *.log
+data/*
+!data/
+!data/http_api.json
+!data/http_api_executions.json

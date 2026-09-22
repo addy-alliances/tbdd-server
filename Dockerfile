@@ -15,4 +15,4 @@ COPY . .
 ENV PYTHONPATH=/app
 EXPOSE 8000
 
-CMD ["python", "-m", "src.server"]
+CMD ["sh", "-c", "if [ \"${STORAGE_BACKEND:-database}\" = \"database\" ]; then alembic upgrade head; fi; exec python -m src.server"]

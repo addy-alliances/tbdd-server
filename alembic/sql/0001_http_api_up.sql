@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS http_api (
+    id VARCHAR(36) PRIMARY KEY,
+    url VARCHAR(2048) NOT NULL,
+    method VARCHAR(16) NOT NULL,
+    headers JSON,
+    params JSON,
+    body JSON,
+    json_body JSON,
+    form_data JSON,
+    files JSON,
+    cookies JSON,
+    auth JSON,
+    timeout DOUBLE PRECISION NOT NULL,
+    follow_redirects BOOLEAN NOT NULL,
+    verify BOOLEAN NOT NULL,
+    content_type VARCHAR(255),
+    accept VARCHAR(255),
+    custom_kwargs JSON,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
